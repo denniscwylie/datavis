@@ -178,7 +178,11 @@ plt.close()
 sns.lmplot(data=anscombe, x='x', y='y', col='set', lowess=True)
 
 ## for pairs plot / scatterplot matrix can either use seaborn:
-sns.pairplot(gse75386[['Gad1', 'Pvalb', 'Cck', 'class']])
+sns.pairplot(gse75386[['Gad1', 'Pvalb', 'Cck', 'class']],
+             hue='class',
+             palette={'Cck' : 'darkslategray',
+                      'Pvalb' : 'goldenrod',
+                      'Pyramidal' : 'lightseagreen'})
 ## or pandas own scatter_matrix function:
 scatter_matrix(gse75386[['Gad1', 'Pvalb', 'Cck', 'class']])
 ## neither one includes the categorical variable class, though
