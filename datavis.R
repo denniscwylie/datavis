@@ -51,6 +51,10 @@ gse75386 = data.frame(
 )
 head(gse75386)
 
+
+## -----------------------------------------------------------------
+## GSE75386 stripchart example
+## -----------------------------------------------------------------
 ggstrip = ggplot(
     data = gse75386,
     mapping = aes(
@@ -63,6 +67,10 @@ ggstrip = ggstrip + geom_point()
 print(ggstrip)
 ## garbage = dev.off()
 
+
+## -----------------------------------------------------------------
+## GSE75386 overplotted bars
+## -----------------------------------------------------------------
 ggbar = ggplot(gse75386, aes(x=class, y=Gad1))
 ggbar = ggbar + geom_bar(alpha=0.1,
                          position='identity', stat='identity')
@@ -71,6 +79,10 @@ ggbar = ggbar + coord_flip()
 print(ggbar)
 ## garbage = dev.off()
 
+
+## -----------------------------------------------------------------
+## GSE75386 mean bars + SE lines
+## -----------------------------------------------------------------
 ## use dplyr functionality to compute stat transformations
 gse75386stats = gse75386 %>%
                 group_by(class) %>%
@@ -88,6 +100,10 @@ ggbarse = ggbarse + coord_flip()
 print(ggbarse)
 ## garbage = dev.off()
 
+
+## -----------------------------------------------------------------
+## GSE75386 boxplot + stripchart
+## -----------------------------------------------------------------
 ggbox = ggplot(gse75386, aes(x=class, y=Gad1))
 ggbox = ggbox + geom_boxplot(stat='boxplot',
                              outlier.size=0)
@@ -97,6 +113,10 @@ ggbox = ggbox + coord_flip()
 print(ggbox)
 ## garbage = dev.off()
 
+
+## -----------------------------------------------------------------
+## GSE75386 scatterplot
+## -----------------------------------------------------------------
 ggscat = ggplot(
     gse75386,
     aes(x=Gad1, y=Cck, color=class)
@@ -130,6 +150,10 @@ ggscat = ggscat + scale_size_manual(values=c(2, 4))
 print(ggscat)
 ## garbage = dev.off()
 
+
+## -----------------------------------------------------------------
+## GSE75386 scatterplot + text layer
+## -----------------------------------------------------------------
 gse75386$odd = annot[colnames(logTpm), 'title']
 ## Pyramidal cells with low Gad1 and low Pvalb are not odd
 gse75386[gse75386$class == 'Pyramidal' &
@@ -169,6 +193,10 @@ ggscat = ggscat + geom_text(
 print(ggscat)
 ## garbage = dev.off()
 
+
+## -----------------------------------------------------------------
+## minard plotting
+## -----------------------------------------------------------------
 troops = rt('minard-troops.tsv', row.names=NULL)
 cities = rt('minard-cities.tsv', row.names=NULL)
 head(troops)
@@ -203,6 +231,10 @@ ggboth = ggboth + xlab(NULL) + ylab(NULL)
 print(ggboth)
 ## garbage = dev.off()
 
+
+## -----------------------------------------------------------------
+## Small multiples and facetting
+## -----------------------------------------------------------------
 anscombe = rt('anscombe_orig.tsv')
 anscombe = data.frame(
     x = c(rep(anscombe$x0, 3), anscombe$x4),
@@ -320,6 +352,10 @@ wrappedLoess = function(data, mapping,
     return(ggobj)
 }
 
+
+## -----------------------------------------------------------------
+## GSE75386 scatterplot matrix (a.k.a. pairs plot)
+##-----------------------------------------------------------------
 ## pdf('gse75386_pairs.pdf', h=5, w=5)
 ggpairs(
     gse75386[ , c('Gad1', 'Pvalb', 'Cck', 'class')],
@@ -344,6 +380,10 @@ ggpairs(
 )
 ## garbage = dev.off()
 
+
+## -----------------------------------------------------------------
+## clustered heatmap
+##-----------------------------------------------------------------
 theGenes = c(
     'Npy',
     'Cacna1d',

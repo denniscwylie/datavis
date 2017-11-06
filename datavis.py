@@ -1,4 +1,4 @@
-import ggplot as gg
+import plotnine as gg
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
@@ -40,12 +40,64 @@ gse75386 = pd.DataFrame({
 }, index = logTpm.columns)
 gse75386.head()
 
-## python ggplot has trouble with strip-charts, so use seaborn
+
+## -----------------------------------------------------------------
+## GSE75386 stripchart example
+## -----------------------------------------------------------------
+ggstrip = ggplot(
+    data = gse75386,
+    mapping = gg.aes(
+        x = 'Gad1',
+        y = 'class'
+    )
+)
+ggstrip += gg.geom_point()
+print(ggstrip)
+# ggstrip.save('gse75386_gad1_stripchart_bw.pdf', format='pdf',
+#              height=1, width=6)
+
+## can also use seaborn for strip plotting...
 plt.close()
 # plt.figure(figsize=(6, 1))
 sns.stripplot(data=gse75386, y='class', x='Gad1', color='black')
 # plt.savefig('gse75386_gad1_stripchart_bw.pdf',
 #             format='pdf', bbox_inches='tight')
+
+
+## -----------------------------------------------------------------
+## GSE75386 overplotted bars
+## -----------------------------------------------------------------
+plt.close()
+ggbar = ggplot(gse75386, gg.aes(x='class', y='Gad1'))
+ggbar += gg.geom_bar(alpha=0.1, position='identity', stat='identity')
+ggbar += gg.coord_flip()
+print(ggbar)
+# ggbar.save('gse75386_gad1_barchart_id.pdf', format='pdf',
+#            height=1, width=6)
+
+
+## -----------------------------------------------------------------
+## GSE75386 mean bars + SE lines
+## -----------------------------------------------------------------
+plt.close()
+## use pandas functionality to compute stat transformations
+gse75386means = gse75386[['class', 'Gad1']]\
+                .groupby('class').agg(np.mean).iloc[:, 0]
+gse75386ses = gse75386[['class', 'Gad1']]\
+              .groupby('class').agg(lambda x: x.std() / np.sqrt(len(x)))\
+              .iloc[:, 0]
+gse75386stats = pd.DataFrame({'Gad1 (Mean)' : gse75386means,
+                              'SE' : gse75386ses,
+                              'ymin' : gse75386means - gse75386ses,
+                              'ymax' : gse75386means + gse75386ses,
+                              'class' : gse75386means.index.values})
+ggbarse = ggplot(gse75386stats, gg.aes(x='class', y='Gad1 (Mean)')) +\
+          gg.geom_bar(alpha=0.6, stat='identity') +\
+          gg.geom_errorbar(mapping=gg.aes(ymin='ymin', ymax='ymax'), width=0.0001) +\
+          gg.coord_flip()
+print(ggbarse)
+# ggbarse.save('gse75386_gad1_barchart_stat.pdf', format='pdf',
+#              height=1, width=6)
 
 ## mean bars +/- standard error using seaborn
 plt.close()
@@ -54,6 +106,18 @@ sns.barplot(data=gse75386, y='class', x='Gad1', color='slategray', ci=68)
 # plt.savefig('gse75386_gad1_barchart_stat.pdf',
 #             format='pdf', bbox_inches='tight')
 
+
+## -----------------------------------------------------------------
+## GSE75386 boxplot + stripchart
+## -----------------------------------------------------------------
+plt.close()
+ggbox = ggplot(gse75386, gg.aes(x='class', y='Gad1')) +\
+        gg.geom_boxplot(stat='boxplot', outlier_size=0.0001) +\
+        gg.geom_point(alpha=0.5) +\
+        gg.coord_flip()
+print(ggbox)
+# ggbox.save('gse75386_gad1_boxplot.pdf', format='pdf', height=1, width=6)
+
 plt.close()
 # plt.figure(figsize=(6, 1))
 sns.boxplot(data=gse75386, y='class', x='Gad1', color='white')
@@ -61,6 +125,10 @@ sns.stripplot(data=gse75386, y='class', x='Gad1', color='black')
 # plt.savefig('gse75386_gad1_boxplot.pdf',
 #             format='pdf', bbox_inches='tight')
 
+
+## -----------------------------------------------------------------
+## GSE75386 scatterplot
+## -----------------------------------------------------------------
 plt.close()
 ggscat = ggplot(
     gse75386,
@@ -70,7 +138,7 @@ ggscat += gg.geom_point(alpha=0.75)
 ggscat += gg.scale_color_manual(
         values=['darkslategray', 'goldenrod', 'lightseagreen'])
 print(ggscat)
-# ggscat.save('gse75386_cck_vs_gad1.png',
+# ggscat.save('gse75386_cck_vs_gad1.pdf', format='pdf',
 #             height=5, width=7)
 
 def binarize(x, column, brk):
@@ -91,9 +159,13 @@ ggscat += gg.geom_point(alpha=0.75)
 ggscat += gg.scale_color_manual(
         values=['darkslategray', 'goldenrod', 'lightseagreen'])
 print(ggscat)
-# ggscat.save('gse75386_cck_vs_gad1_sized_by_pvalb.png',
+# ggscat.save('gse75386_cck_vs_gad1_sized_by_pvalb.pdf', format='pdf',
 #             height=5, width=7)
 
+
+## -----------------------------------------------------------------
+## GSE75386 scatterplot + text layer
+## -----------------------------------------------------------------
 gse75386['odd'] = annot.loc[logTpm.columns, 'title']
 ## Pyramidal cells with low Gad1 and low Pvalb are not odd
 gse75386.loc[(gse75386['class'] == 'Pyramidal') &
@@ -111,12 +183,6 @@ gse75386.loc[(gse75386['class'] == 'Cck') &
              (gse75386['Pvalb (cut)'] == 'low Pvalb'),
              'odd'] = ''
 
-# ## python geom_text seems to be a bit buggy---may have to uncomment
-# ## following code to avoid lines connecting unlabeled points
-# for i, idx in enumerate(gse75386.index):
-#     if gse75386.loc[idx, 'odd'] == '':
-#         gse75386.loc[idx, 'odd'] = ''.join([' '] * i)
-
 plt.close()
 ggscat = ggplot(
     gse75386,
@@ -126,10 +192,11 @@ ggscat = ggplot(
 ggscat += gg.scale_color_manual(
         values=['darkslategray', 'goldenrod', 'lightseagreen'])
 ggscat += gg.geom_point(alpha=0.75)
-ggscat += gg.geom_text(size=10)
+ggscat += gg.geom_text(size=15, nudge_y= 0.65, show_legend=False)
+ggscat += gg.scale_size_manual(values=[4., 1.5])
 print(ggscat)
-# ggscat.save('gse75386_cck_vs_gad1_sized_by_pvalb_odds_labeled.png',
-#             height=5, width=7)
+# ggscat.save('gse75386_cck_vs_gad1_sized_by_pvalb_odds_labeled.pdf',
+#             format='pdf', height=5, width=7)
 
 ## alternately can generate similar scatterplot using seaborn
 plt.close()
@@ -149,11 +216,53 @@ for i in range(gse75386.shape[0]):
                0.15 + 0.78*gse75386['Cck'].iloc[i] / gse75386['Cck'].max(),
                gse75386['odd'].iloc[i])
 
-    # plt.savefig('gse75386_cck_vs_gad1_odds_labeled.pdf',
+# plt.savefig('gse75386_cck_vs_gad1_odds_labeled.pdf',
 #             format='pdf', bbox_inches='tight')
 
-## python ggplot not yet capable of good minard plot.
 
+## -----------------------------------------------------------------
+## minard plotting
+## -----------------------------------------------------------------
+troops = rt('minard-troops.tsv', index_col=None)
+cities = rt('minard-cities.tsv', index_col=None)
+troops.head()
+
+plt.close()
+ggtroops = ggplot(troops, gg.aes('long', 'lat'))
+ggtroops += gg.geom_path(gg.aes(
+    size = 'survivors',
+    color = 'direction',
+    group = 'group'
+))
+print(ggtroops)
+# ggtroops.save('ggplot_minard_troops.pdf', format='pdf',
+#               height=4, width=12)
+
+plt.close()
+ggboth = ggtroops + gg.geom_text(
+    gg.aes(label = 'city'),
+    size = 12,
+    data = cities
+)
+print(ggboth)
+# ggboth.save('ggplot_minard_both.pdf', format='pdf',
+#             height=4, width=12)
+
+plt.close()
+ggboth += gg.scale_size(
+    range = [1, 10],
+    breaks = [1e5, 2e5, 3e5]
+)
+ggboth = ggboth + gg.scale_color_manual(values = ["#d2b48c", "black"])
+ggboth = ggboth + gg.xlab('') + gg.ylab('')
+print(ggboth)
+# ggboth.save('ggplot_minard_both_formatted.pdf', format='pdf',
+#             height=4, width=12)
+
+
+## -----------------------------------------------------------------
+## Small multiples and facetting
+## -----------------------------------------------------------------
 anscombe = rt('anscombe_orig.tsv')
 anscombe = pd.DataFrame({
     'x' : pd.Series(list(anscombe['x0'])*3 + list(anscombe['x4'])).values,
@@ -166,6 +275,19 @@ anscombe = pd.DataFrame({
 })
 anscombe.head()
 
+plt.close()
+ggo = gg.ggplot(anscombe, gg.aes(x='x', y='y')) +\
+      gg.facet_wrap('~ set') +\
+      gg.geom_point() +\
+      gg.theme_bw()
+print(ggo)
+# ggo.save('anscombe_points.pdf', format='pdf', height=5, width=5)
+
+plt.close()
+ggo += gg.stat_smooth(method='lm')
+print(ggo)
+## ggo.save('anscombe_lm.pdf', format='pdf', height=5, width=5)
+
 ## seaborn's lmplot function often useful in same situations
 ## one would want stat_smooth in R with ggplot2
 plt.close()
@@ -177,16 +299,28 @@ sns.lmplot(data=anscombe, x='x', y='y', col='set', robust=True, ci=None)
 plt.close()
 sns.lmplot(data=anscombe, x='x', y='y', col='set', lowess=True)
 
+
+## -----------------------------------------------------------------
+## GSE75386 scatterplot matrix (a.k.a. pairs plot)
+##-----------------------------------------------------------------
+plt.close()
 ## for pairs plot / scatterplot matrix can either use seaborn:
 sns.pairplot(gse75386[['Gad1', 'Pvalb', 'Cck', 'class']],
              hue='class',
              palette={'Cck' : 'darkslategray',
                       'Pvalb' : 'goldenrod',
                       'Pyramidal' : 'lightseagreen'})
+
+plt.close()
 ## or pandas own scatter_matrix function:
 scatter_matrix(gse75386[['Gad1', 'Pvalb', 'Cck', 'class']])
 ## neither one includes the categorical variable class, though
 
+
+## -----------------------------------------------------------------
+## clustered heatmap
+##-----------------------------------------------------------------
+plt.close()
 ## seaborn's clustermap function is similar to R's pheatmap
 theGenes = [
     'Npy',
