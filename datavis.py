@@ -19,7 +19,7 @@ def rt(f, sep='\t', index_col=0, header=0, *args, **kwargs):
 
 logTpm = rt('gse75386_logtpm_filtered.tsv.gz')
 trxAnnot = rt('Mus_musculus_GRCm38_82_TranscriptMap.tsv.gz')
-trxAnnot = trxAnnot.loc[logTpm.index]
+trxAnnot = trxAnnot.reindex(logTpm.index)
 annot = rt('gse75386_processed_annot.tsv')
 annot.head()
 
