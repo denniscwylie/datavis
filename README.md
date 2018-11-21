@@ -10,8 +10,8 @@ Python code directly in an interactive session if you prefer.
 Regarding the Python code: the example code is built and tested in
 python3 and may require some adaptation to get to work in python2.
 
-- **datavis.pdf**  
-  Slides for course in pdf format.
+- [**datavis.pdf**](https://github.com/denniscwylie/datavis/blob/master/datavis.pdf)  
+  Slides for course.
 - [**datavis.R**](https://github.com/denniscwylie/datavis/blob/master/datavis.R)  
   R script file with example code for course. Requires R libraries:
   - [dplyr](https://cran.r-project.org/package=dplyr)
