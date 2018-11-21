@@ -1,3 +1,4 @@
 .gitignore
 datavis_python_old.ipynb
 .ipynb_checkpoints*
+.Rhistory

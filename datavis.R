@@ -26,8 +26,8 @@ rt = function(..., sep='\t', row.names=1, header=TRUE, check.names=FALSE) {
            check.names=check.names))
 }
 
-logTpm = rt(gzfile('gse75386_logtpm_filtered.tsv.gz'))
-trxAnnot = rt(gzfile('Mus_musculus_GRCm38_82_TranscriptMap.tsv.gz'))
+logTpm = rt('gse75386_logtpm_filtered.tsv.gz')
+trxAnnot = rt('Mus_musculus_GRCm38_82_TranscriptMap.tsv.gz')
 trxAnnot = trxAnnot[rownames(logTpm), ]
 annot = droplevels(rt('gse75386_processed_annot.tsv')[colnames(logTpm), ])
 head(annot)
