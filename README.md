@@ -12,7 +12,7 @@ python3 and may require some adaptation to get to work in python2.
 
 - **datavis.pdf**  
   Slides for course in pdf format.
-- [**datavis.R**](https://github.com/denniscwylie/datavis#datavis.R)  
+- [**datavis.R**](https://github.com/denniscwylie/datavis/blob/master/datavis.R)  
   R script file with example code for course. Requires R libraries:
   - [dplyr](https://cran.r-project.org/package=dplyr)
   - [GGally](https://cran.r-project.org/package=GGally)
@@ -20,14 +20,14 @@ python3 and may require some adaptation to get to work in python2.
   - [MASS](https://cran.r-project.org/package=MASS)
   - [pheatmap](https://cran.r-project.org/package=pheatmap)
   - [scales](https://cran.r-project.org/package=scales)
-- [**datavis.ipynb**](https://github.com/denniscwylie/datavis#datavis.ipynb)  
+- [**datavis.ipynb**](https://github.com/denniscwylie/datavis/blob/master/datavis.ipynb)  
   Jupyter notebook version of R example code
-- [**datavis.py**](https://github.com/denniscwylie/datavis#datavis.py)  
+- [**datavis.py**](https://github.com/denniscwylie/datavis/blob/master/datavis.py)  
   Python version of example code. Requires python modules:
   - [numpy](http://www.numpy.org)
   - [pandas](https://pandas.pydata.org)
   - [matplotlib](https://matplotlib.org)
   - [seaborn](https://seaborn.pydata.org)
   - [plotnine](https://pypi.org/project/plotnine)
-- [**datavis_python.ipynb**](https://github.com/denniscwylie/datavis#datavis_python.ipynb)  
+- [**datavis_python.ipynb**](https://github.com/denniscwylie/datavis/blob/master/datavis_python.ipynb)  
   Jupyter notebook version of Python example code
