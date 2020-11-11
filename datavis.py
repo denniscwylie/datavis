@@ -158,6 +158,7 @@ ggscat = ggplot(
 ggscat += gg.geom_point(alpha=0.75)
 ggscat += gg.scale_color_manual(
         values=['darkslategray', 'goldenrod', 'lightseagreen'])
+ggscat += gg.scale_size_manual(values=[4., 1.5])
 print(ggscat)
 # ggscat.save('gse75386_cck_vs_gad1_sized_by_pvalb.pdf', format='pdf',
 #             height=5, width=7)
