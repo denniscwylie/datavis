@@ -2,7 +2,7 @@ import plotnine as gg
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-from pandas.tools.plotting import scatter_matrix
+from pandas.plotting import scatter_matrix
 import seaborn as sns
 
 plt.ion()
