@@ -22,6 +22,8 @@ python3 and may require some adaptation to get to work in python2.
   - [scales](https://cran.r-project.org/package=scales)
 - [**datavis.ipynb**](https://github.com/denniscwylie/datavis/blob/master/datavis.ipynb)  
   Jupyter notebook version of R example code
+- [**datavis.Rmd**](https://github.com/denniscwylie/datavis/blob/master/datavis.Rmd)  
+  R Markdown version of R example code
 - [**datavis.py**](https://github.com/denniscwylie/datavis/blob/master/datavis.py)  
   Python version of example code. Requires python modules:
   - [numpy](http://www.numpy.org)
