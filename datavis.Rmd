@@ -133,7 +133,8 @@ ggscat = ggplot(
 )
 ggscat = ggscat + geom_point(alpha=0.75)
 ggscat = ggscat + scale_color_manual(
-values=c('darkslategray', 'goldenrod', 'lightseagreen'))
+    values=c('darkslategray', 'goldenrod', 'lightseagreen')
+)
 ## pdf('gse75386_cck_vs_gad1.pdf', h=4, w=5.5)
 print(ggscat)
 ## garbage = dev.off()
@@ -160,7 +161,8 @@ ggscat = ggplot(
 )
 ggscat = ggscat + geom_point(alpha=0.75)
 ggscat = ggscat + scale_color_manual(
-        values=c('darkslategray', 'goldenrod', 'lightseagreen'))
+    values=c('darkslategray', 'goldenrod', 'lightseagreen')
+)
 ggscat = ggscat + scale_size_manual(values=c(2, 4))
 ## pdf('gse75386_cck_vs_gad1_sized_by_pvalb.pdf', h=4, w=5.6)
 print(ggscat)
@@ -193,7 +195,8 @@ ggscat = ggplot(
 )
 ggscat = ggscat + geom_point(alpha=0.75)
 ggscat = ggscat + scale_color_manual(
-        values=c('darkslategray', 'goldenrod', 'lightseagreen'))
+    values=c('darkslategray', 'goldenrod', 'lightseagreen')
+)
 ggscat = ggscat + scale_size_manual(values=c(2, 4))
 ## pdf('gse75386_cck_vs_gad1_sized_by_pvalb.pdf', h=4, w=5.6)
 print(ggscat)
@@ -332,7 +335,7 @@ print(ggo)
 ggo = ggplot(anscombe, aes(x=x, y=y))
 ggo = ggo + geom_point()
 ggo = ggo + geom_text(aes(label=text),
-data=lmDescriptions(anscombe, rlm))
+                      data = lmDescriptions(anscombe, rlm))
 ggo = ggo + stat_smooth(method=rlm)
 ggo = ggo + facet_wrap(~ set)
 ## pdf('anscombe_rlm.pdf', h=5, w=5)
